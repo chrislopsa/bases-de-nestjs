@@ -1,0 +1,92 @@
+***¿Qué propósito cumple el archivo main.ts en un proyecto NestJS y por qué es crucial en la configuración inicial?*** 
+
+el propósito es ser el punto de entrada de la aplicación Nestjs, contener la funcion que se encargara de inicializar la app y es el archivo donde se crea una instancia de la app Nestjs, es crucial porque esta instancia se utiliza para configurar y gestionar componentes de la aplicación, como controladores, servicios y módulos.
+ademas en main.ts establecemos el puerto donde la app escuchara las solicitudes entrantes.
+
+***¿Qué diferencia existe entre app.module.ts y app.controller.ts? ¿Cómo se relacionan estos archivos con la modularidad y la estructura de la aplicación?***
+
+la principal diferencia es el objetivo de cada archivo: 
+    *app.module.ts se encarga de la configuración global y la agrupación de componentes, allí se importan otros módulos sean personalizados o de terceros, y se declaran los componentes (controladores, servicios, etc.)
+    *app. controller.ts maneja las rutas y la lógica específica de cada controlador.
+
+ambos contribuyen y son necesarios para la estructura modular y organizada de la aplicación.
+
+***¿Por qué crees que es importante modularizar la aplicación separando funcionalidades en diferentes módulos?***
+
+porque un código modular mejora la capacidad de mantenimiento y permite que los equipos desarrollen partes del software por separado, ademas la modularidad facilita la legibilidad y el manejo de de programas grandes y complejos.
+
+***¿Cómo crees que afecta la modularidad al mantenimiento y escalabilidad de la aplicación?***
+
+Reduce el riesgo de errores y agiliza el desarrollo.
+gestiona los componentes:
+*los módulos agrupan controladores, servicios y otros elementos relacionados.
+*evita el caos al manejar decenas de entidades en una sola ubicación.
+
+***Despues de crear los archivos de los módulos, ¿qué archivos se generan y cómo se relacionan con los módulos creados?***
+
+se generaron para cada carpeta un archivo loans.module.ts y users.module.ts respectivamente, en cada uno se importó el modulo 'Module' que se utiliza para definir otros módulos en la app.
+
+seguido de ello y usando el decorador '@Module' se crea una clase que esta vacía sin metodos ni propiedades. 
+
+la relación con otros módulos se da porque este puede ser importado y utilizado en otros partes de al app.
+
+***¿Qué sucede si defines incorrectamente un decorador en un controlador? ¿Cómo afecta esto a la funcionalidad del endpoint?***
+
+un error de estos puede resultar en en que el endpoint no se active correctamente, o por ejemplo, si aplicamos un decorador de autenticación incorrectamente, podriamos permitir el acceso no autorizado a un endpoint protegido, si es un decorador de validación y lógica de negocio, la vlidación podría no funcionar como se espera o la lógica de negocio podría no ejecutarse adecuadamente.
+
+***¿Por qué es importante manejar rutas dinámicas (por ejemplo, @Get(':id')) en aplicaciones que interactúan con bases de datos?***
+
+es importante porque me permiten acceder a recursos especificos mediante un parametro que es variable, en esta caso 'id', esto optimiza la consulta. Ademas puedo crear un endpoint generico que meneje diferentes recursos en lugar de un endpoint especifico para cada 'id', esto facilita la escalabilidad y mantenimiento de la app a medida que crece y se agregan más recursos.
+
+las rutas dinámicas son fundamentales para la interacción precisa y eficiente con bases de datos.
+
+***¿Qué ventajas tiene manejar la lógica de negocio en servicios en lugar de controladores?***
+
+una de las ventajas de manejar la lógica de negocio en los servicios es que estos pueden contener varias funciones y métodos que se utilizan en varios controladores, en otras palabras reutulizar la lógica de negocio en otras partes de la aplicación.
+
+otra ventaja es la testeabilidad, ya que puedo escribir pruebas unitarias especificas para los métodos de servicio sin preocuparme por el enrutamiento o la solicitud HTTP.
+
+tambien separa al controlador de la responsabilidad de manejar las solicitudes HTTP y manejar la lógica de negocio, creando un servicio que maneje la lógica de negocio y actuando como un intermediario entre el controlador y la lógica de negocio. 
+
+***¿Cómo se relaciona la inyección de dependencias con la modularidad y la capacidad de prueba de la aplicación?***
+
+porque cada módulo puede tener dependencias inyectadas, lo que permite delegar la creación y gestion de instancias de tus servicios. en otras palabras, en lugar de que un componente cree sus propias dependencias, estas se pasan a través de sus conductores o métodos.
+Tambien la DI mejora la testabilidad al permitir la sustitución de dependencias reales por versiones simuladas o mockeadas durante las pruebas. Entonces gracias a DI se facilita la creación de pruebas unitarias, ya que puedes inyectar dependencias ficticias y congtrolar su comportamiento.
+
+***¿Por qué es crucial validar los datos de entrada en una aplicación que maneja transacciones financieras?***
+
+es crucial porque las transacciones financieras involucran datos muy sensibles, sin validación, errores o datos incorrectos podrían afectar la integridad de las transacciones y causar pérdidas financieras. ademas ayuda a prevenir ataques maliciosos.
+
+tambien es necesario para cumplir con las regulaciones financieras (como KYC, AML, PCI DSS), estas exigen la validación de datos. Cumplir con estas normativas es esencial para evitar sanciones legales y proteger la reputación de la empresa.
+La validación garantiza que los datos sigan un formato específico y sean consistentes. Esto ayuda a evitar errores humanos y mejora la calidad de los datos almacenados.
+
+***¿Qué podría suceder si un decorador está mal colocado o si no se aplican los pipes correctamente?***
+
+Los decoradores afectan el comportamiento de las clases o métodos, y si no se aplican correctamente, pueden provocar errores o resultados inesperados, si un pipe de validación no se configura adecuadamente, las validaciones no se realizarán correctamente y podrían pasar datos no válidos.
+
+tambien si se aplican demasiados pipes innecesarios o si no se optimizan correctamente, el rendimiento de la aplicación podría verse afectado.
+Los pipes agregan una sobrecarga, y su uso excesivo puede ralentizar la ejecución de los métodos.
+Comportamiento impredecible:
+Si los pipes no se aplican en el orden correcto, pueden afectar el flujo de datos, Por ejemplo, si un pipe de transformación se aplica antes que un pipe de validación, los datos podrían no estar en el formato esperado.
+
+
+***¿Cómo impacta el manejo adecuado de excepciones en la experiencia del usuario y en la seguridad de la aplicación?***
+
+
+El manejo adecuado de excepciones tiene un impacto significativo tanto en la experiencia del usuario como en la seguridad de la aplicación:
+
+Cuando se manejan las excepciones correctamente, los usuarios reciben mensajes de error claros y comprensibles. Esto evita confusiones y frustraciones.
+Retroalimentación útil: Los mensajes de error bien diseñados proporcionan información relevante sobre el problema y sugieren posibles soluciones. Esto ayuda a los usuarios a resolver problemas más rápidamente.
+Evita interrupciones abruptas: Un manejo inadecuado de excepciones puede causar que la aplicación se bloquee o muestre errores técnicos confusos. 
+El manejo adecuado de excepciones ayuda a prevenir ataques como inyección de código o revelación de información sensible.
+Control de errores: Al manejar las excepciones, puedes registrar y monitorear errores, lo que facilita la identificación y corrección de problemas de seguridad. Las excepciones bien manejadas evitan que se expongan datos confidenciales o que se realicen operaciones no autorizadas.
+
+***¿Por qué es importante tener un manejo centralizado de excepciones en una aplicación NestJS?***
+
+Al centralizar el manejo de excepciones, puedes aplicar lógica coherente en toda la aplicación. Esto facilita el mantenimiento y evita duplicación de código.
+
+Un manejo uniforme de errores proporciona respuestas claras y consistentes a los usuarios. Los mensajes de error bien diseñados ayudan a los usuarios a comprender y resolver problemas.
+
+Al centralizar el manejo, puedes implementar medidas de seguridad consistentes. Evita la exposición de información sensible o errores técnicos a los clientes.
+
+Un enfoque centralizado permite agregar o modificar excepciones de manera eficiente. Facilita la adaptación a futuros cambios o requisitos.
